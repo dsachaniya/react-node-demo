@@ -11,7 +11,8 @@ const ErrMessages = {
   InvalidPassword: 'Email or password is incorrect',
   InvalidToken: 'Access token is invalid',
   InvalidAdminKey: 'Invalid Admin key',
-  userNotFound: 'User not found'
+  userNotFound: 'User not found',
+  BikeExists: "This Bike has been already registered."
 };
 
 /**

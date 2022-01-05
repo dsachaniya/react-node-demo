@@ -20,6 +20,7 @@ exports.validateToken = function (req, res, next) {
     // verifies secret
     jwt.verify(token, process.env['SECRET'], function (err, decoded) {
       if (err) {
+        console.log("err",err)
         SetResponse(rcResponse, 403, RequestErrorMsg('InvalidToken', req, null), false);
         let httpStatus = 403;
         return res.status(httpStatus).send(rcResponse);
