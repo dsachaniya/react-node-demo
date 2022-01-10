@@ -109,7 +109,7 @@ export default function BikeList() {
       </Button>
       {bikeList?.length && (
         <div style={{ height: 400, width: '100%' }}>
-          <DataGrid rows={bikeList} columns={columns} pageSize={10} autoHeight />
+          <DataGrid rows={bikeList} columns={columns} pageSize={10} autoHeight disableColumnMenu/>
         </div>
       )}
     </Grid>

@@ -88,7 +88,7 @@ export default function BikeWithUsersModal({ userList, handleClose }) {
             <Grid container style={{ padding: 20 }}>
               {userList?.length > 0 && (
                 <div style={{ height: 400, width: '100%' }}>
-                  <DataGrid rows={userList} columns={columns} pageSize={5} />
+                  <DataGrid rows={userList} columns={columns} pageSize={10} disableColumnMenu />
                 </div>
               )}
               {userList?.length === 0 && <h3>No reservations for this Bike</h3>}

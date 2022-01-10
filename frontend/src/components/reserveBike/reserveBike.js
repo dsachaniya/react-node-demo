@@ -195,7 +195,7 @@ export default function ReserveBike() {
       </LocalizationProvider>
       {bikeList?.length > 0 && (
         <div style={{ height: 400, width: '100%' }}>
-          <DataGrid rows={bikeList} columns={columns} pageSize={10} autoHeight />
+          <DataGrid rows={bikeList} columns={columns} pageSize={10} autoHeight disableColumnMenu />
         </div>
       )}
       {bikeList?.length === 0 && <h3>No bikes available</h3>}

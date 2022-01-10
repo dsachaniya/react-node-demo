@@ -119,7 +119,7 @@ export default function UserList() {
       </Button>
       {userList?.length && (
         <div style={{ height: 400, width: '100%' }}>
-          <DataGrid rows={userList} columns={columns} pageSize={10} autoHeight />
+          <DataGrid rows={userList} columns={columns} pageSize={10} autoHeight disableColumnMenu/>
         </div>
       )}
     </Grid>

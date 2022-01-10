@@ -116,7 +116,7 @@ export default function UserReservations() {
       )}
       {reservationList?.length > 0 && (
         <div style={{ height: 400, width: '100%' }}>
-          <DataGrid rows={reservationList} columns={columns} pageSize={10} autoHeight />
+          <DataGrid rows={reservationList} columns={columns} pageSize={10} autoHeight disableColumnMenu />
         </div>
       )}
       {reservationList?.length === 0 && <h3>You dont have any booking</h3>}
