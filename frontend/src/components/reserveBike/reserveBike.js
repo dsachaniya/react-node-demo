@@ -201,7 +201,8 @@ export default function ReserveBike() {
                 value={ratings}
                 fullWidth
                 label="Ratings"
-                onChange={(event) => setRatings(event.target.value)}>
+                onChange={(event) => setRatings(event.target.value)}
+              >
                 <MenuItem value={1}>
                   {' '}
                   <Rating size="small" value={1} readOnly /> and up
@@ -228,7 +229,8 @@ export default function ReserveBike() {
               size="large"
               onClick={() => {
                 onSearch();
-              }}>
+              }}
+            >
               Search Bike
             </Button>
           </Grid>

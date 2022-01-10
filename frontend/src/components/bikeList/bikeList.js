@@ -29,7 +29,8 @@ export default function BikeList() {
         variant="contained"
         onClick={() => {
           onDeleteBike(params.row._id);
-        }}>
+        }}
+      >
         Delete
       </Button>
     </>
@@ -72,7 +73,7 @@ export default function BikeList() {
   useEffect(() => {
     getBikes();
   }, []);
-  
+
   const toggleAddEditModal = (bike) => {
     setAddEditModalParams({
       isAddEditModalOpen: !isAddEditModalOpen,
@@ -104,12 +105,13 @@ export default function BikeList() {
         color="primary"
         variant="contained"
         onClick={() => toggleAddEditModal()}
-        style={{ margin: '10px 0px' }}>
+        style={{ margin: '10px 0px' }}
+      >
         Add a new bike
       </Button>
       {bikeList?.length && (
         <div style={{ height: 400, width: '100%' }}>
-          <DataGrid rows={bikeList} columns={columns} pageSize={10} autoHeight disableColumnMenu/>
+          <DataGrid rows={bikeList} columns={columns} pageSize={10} autoHeight disableColumnMenu />
         </div>
       )}
     </Grid>

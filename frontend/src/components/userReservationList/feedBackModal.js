@@ -37,7 +37,8 @@ export default function FeedbackModal({ open, handleClose, onRatingSubmit }) {
           timeout: 500,
         }}
         aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description">
+        aria-describedby="modal-modal-description"
+      >
         <Fade in={open}>
           <Box sx={style}>
             <Typography id="modal-modal-title" align="center" variant="h6" component="h2">
@@ -63,7 +64,8 @@ export default function FeedbackModal({ open, handleClose, onRatingSubmit }) {
               variant="contained"
               color="primary"
               disabled={!rating}
-              sx={{ mt: 3, mb: 2 }}>
+              sx={{ mt: 3, mb: 2 }}
+            >
               Submit
             </Button>
           </Box>

@@ -23,7 +23,8 @@ export default function UserList() {
         variant="contained"
         onClick={() => {
           getBikesWithUsers(params.row._id);
-        }}>
+        }}
+      >
         View Reservation
       </Button>
       <Button color="primary" variant="contained" onClick={() => toggleAddEditModal(params.row)}>
@@ -34,7 +35,8 @@ export default function UserList() {
         variant="contained"
         onClick={() => {
           onDeleteUser(params.row._id);
-        }}>
+        }}
+      >
         Delete
       </Button>
     </>
@@ -114,12 +116,13 @@ export default function UserList() {
         color="primary"
         variant="contained"
         onClick={() => toggleAddEditModal()}
-        style={{ margin: '10px 0px' }}>
+        style={{ margin: '10px 0px' }}
+      >
         Add a new User
       </Button>
       {userList?.length && (
         <div style={{ height: 400, width: '100%' }}>
-          <DataGrid rows={userList} columns={columns} pageSize={10} autoHeight disableColumnMenu/>
+          <DataGrid rows={userList} columns={columns} pageSize={10} autoHeight disableColumnMenu />
         </div>
       )}
     </Grid>

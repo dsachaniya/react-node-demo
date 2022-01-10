@@ -43,13 +43,15 @@ export default function Header({ userDetails }) {
                 <Button
                   key="user"
                   onClick={() => navigate('userList')}
-                  sx={{ my: 2, color: 'white', display: 'block' }}>
+                  sx={{ my: 2, color: 'white', display: 'block' }}
+                >
                   Users
                 </Button>
                 <Button
                   key="bikes"
                   onClick={() => navigate('bikeList')}
-                  sx={{ my: 2, color: 'white', display: 'block' }}>
+                  sx={{ my: 2, color: 'white', display: 'block' }}
+                >
                   Bikes
                 </Button>
               </>
@@ -59,47 +61,53 @@ export default function Header({ userDetails }) {
                 <Button
                   key="book"
                   onClick={() => navigate('reserveBike')}
-                  sx={{ my: 2, color: 'white', display: 'block' }}>
+                  sx={{ my: 2, color: 'white', display: 'block' }}
+                >
                   Book a Bike
                 </Button>
                 <Button
                   key="myBooking"
                   onClick={() => navigate('userReservations')}
-                  sx={{ my: 2, color: 'white', display: 'block' }}>
+                  sx={{ my: 2, color: 'white', display: 'block' }}
+                >
                   My Bookings
                 </Button>
               </>
             )}
           </Box>
-          {userDetails && <Box sx={{ flexGrow: 0 }}>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleMenu}
-              color="inherit"
-              sx={{ p: 0 }}>
-              <AccountCircle />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorEl}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={open}
-              onClose={handleClose}>
-              {/* <MenuItem onClick={() => redirectToProfile()}>My Profile</MenuItem> */}
-              <MenuItem onClick={logout}>Logout</MenuItem>
-            </Menu>
-          </Box>}
+          {userDetails && (
+            <Box sx={{ flexGrow: 0 }}>
+              <IconButton
+                size="large"
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleMenu}
+                color="inherit"
+                sx={{ p: 0 }}
+              >
+                <AccountCircle />
+              </IconButton>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                open={open}
+                onClose={handleClose}
+              >
+                {/* <MenuItem onClick={() => redirectToProfile()}>My Profile</MenuItem> */}
+                <MenuItem onClick={logout}>Logout</MenuItem>
+              </Menu>
+            </Box>
+          )}
         </Toolbar>
       </AppBar>
     </div>

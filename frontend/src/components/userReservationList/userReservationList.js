@@ -24,7 +24,8 @@ export default function UserReservations() {
           variant="contained"
           onClick={() => {
             onUpdateReservation({ isCancelled: true }, params.row._id);
-          }}>
+          }}
+        >
           Cancel Reservation
         </Button>
       )}
@@ -32,7 +33,8 @@ export default function UserReservations() {
         <Button
           color="primary"
           variant="contained"
-          onClick={() => setSelectedReservation(params.row)}>
+          onClick={() => setSelectedReservation(params.row)}
+        >
           Give Rating
         </Button>
       )}
@@ -116,7 +118,13 @@ export default function UserReservations() {
       )}
       {reservationList?.length > 0 && (
         <div style={{ height: 400, width: '100%' }}>
-          <DataGrid rows={reservationList} columns={columns} pageSize={10} autoHeight disableColumnMenu />
+          <DataGrid
+            rows={reservationList}
+            columns={columns}
+            pageSize={10}
+            autoHeight
+            disableColumnMenu
+          />
         </div>
       )}
       {reservationList?.length === 0 && <h3>You dont have any booking</h3>}
