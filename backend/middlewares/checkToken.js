@@ -5,7 +5,6 @@ Description : This file consist of middleware functions to use while requesting 
 
 const jwt = require('jsonwebtoken');
 const { SetResponse, RequestErrorMsg, ErrMessages, ApiResponse, UserRoles } = require('./../helpers/common');
-
 // validates access token for user
 exports.validateToken = function (req, res, next) {
 

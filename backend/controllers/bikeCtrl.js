@@ -189,7 +189,7 @@ const getQuery = ({excludedIds, model = [], color = [], location = [], available
       query.location = { $in: location }
   }
   if (rating) {
-      query.rating = { $gte: rating }
+      query.rating = { $gte: Number(rating) }
   }
   if (available) {
       query.available = true;
@@ -204,7 +204,7 @@ module.exports.listOFBikesExcludingReservedBikes = async (req, res) => {
   /* Contruct response object */
   let rcResponse = new ApiResponse();
   let httpStatus = 200;
-  const { startTime, endTime, model, color, location, available } = req.body
+  const { startTime, endTime, model, color, location, available, rating } = req.body
 
   if (!startTime || !endTime) {
     SetResponse(rcResponse, 400, RequestErrorMsg('InvalidParams', req, null), false);
@@ -214,7 +214,7 @@ module.exports.listOFBikesExcludingReservedBikes = async (req, res) => {
   try {
     const  excludedIds = await getClashedReseravtionsForDateRange(startTime, endTime)
     const basicBikeAggregation = [
-      { $match: getQuery({excludedIds, model, color, location, available}) },
+      { $match: getQuery({excludedIds, model, color, location, available, rating}) },
     ]
     const paginatedDetailedAggregation = [
         ...basicBikeAggregation,
@@ -224,7 +224,6 @@ module.exports.listOFBikesExcludingReservedBikes = async (req, res) => {
         { $count: "count" },
     ]
 
-    console.log("basicBikeAggregation",basicBikeAggregation)
     await Promise.all([
         bikesModal.aggregate(paginatedDetailedAggregation),
         bikesModal.aggregate(countAggregation)

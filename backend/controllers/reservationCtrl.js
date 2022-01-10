@@ -8,6 +8,7 @@ const mongoose = require('mongoose');
 
 const { SetResponse, RequestErrorMsg, ErrMessages, ApiResponse } = require('./../helpers/common');
 const reservationsModal = require('../models/reservationsModal');
+const bikesModal = require('../models/bikesModal');
 
 /* Create new reservation */
 module.exports.createReservation = async (req, res) => {
@@ -52,12 +53,27 @@ module.exports.updateReservation = async (req, res) => {
   let httpStatus = 200;
 
   try {
+    
     let reservationObj = {
         isCancelled: Boolean(req.body.isCancelled),
         rating: Number(req.body.rating),
     };
     reservationObj = JSON.parse(JSON.stringify(reservationObj));
     const updatedReservation = await reservationsModal.findOneAndUpdate({ _id: req.params.reservationId }, { $set: reservationObj }, { new: true }).lean().exec();
+    
+    if(req.body.rating) {
+      const reservation = await reservationsModal.aggregate([
+        { $match : { bikeId : updatedReservation.bikeId, rating: { $gte: 1 }} },
+        {
+          $group:
+            {
+              _id: "$reservation",
+              avgRating: { $avg: "$rating" }
+            }
+        }
+      ]).exec();
+      await bikesModal.findOneAndUpdate({ _id: updatedReservation.bikeId }, { $set: {rating:reservation[0].avgRating} }, { new: true }).lean().exec();
+    }
     rcResponse.data = updatedReservation;
     rcResponse.message = 'Reservation details has been updated successfully';
   } catch (err) {
