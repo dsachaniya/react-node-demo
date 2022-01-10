@@ -1,8 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
-import { format } from 'date-fns';
+import format from 'date-fns/format';
+import isAfter from 'date-fns/isAfter';
+import Rating from '@mui/material/Rating';
+import isBefore from 'date-fns/isBefore';
+import { AppContext } from '../../context';
 import FeedbackModal from './feedBackModal';
 import ApiService from '../../apiService';
 
@@ -14,7 +18,7 @@ export default function UserReservations() {
 
   const renderActions = (params) => (
     <>
-      {!params.row.isCancelled && (
+      {!params.row.isCancelled && isBefore(new Date(), params.row.startTime) && (
         <Button
           color="primary"
           variant="contained"
@@ -24,7 +28,7 @@ export default function UserReservations() {
           Cancel Reservation
         </Button>
       )}
-      {!params.row.rating && (
+      {!params.row.rating && isAfter(new Date(), params.row.endTime) && (
         <Button
           color="primary"
           variant="contained"
@@ -68,7 +72,11 @@ export default function UserReservations() {
     {
       field: 'rating',
       headerName: 'Rating',
-      width: 80,
+      width: 100,
+      renderCell: (params) =>
+        params.row.rating && (
+          <Rating size="small" name="half-rating" defaultValue={params.row.rating} precision={1} />
+        ),
     },
     {
       field: 'isDeactive',
@@ -96,6 +104,7 @@ export default function UserReservations() {
       })
       .catch(() => {});
   };
+  console.log(reservationList);
   return (
     <Grid container style={{ padding: 20 }}>
       {selectedReservation && (
@@ -105,11 +114,12 @@ export default function UserReservations() {
           onRatingSubmit={(payload) => onUpdateReservation(payload, selectedReservation._id)}
         />
       )}
-      {reservationList?.length && (
+      {reservationList?.length > 0 && (
         <div style={{ height: 400, width: '100%' }}>
           <DataGrid rows={reservationList} columns={columns} pageSize={10} autoHeight />
         </div>
       )}
+      {reservationList?.length === 0 && <h3>You dont have any booking</h3>}
     </Grid>
   );
 }

@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react';
 import Avatar from '@mui/material/Avatar';
+import { useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -19,6 +20,7 @@ export default function Login() {
   const [emailId, setEmailId] = useState('');
   const [password, setPassword] = useState('');
   const { dispatch } = useContext(AppContext);
+  const navigate = useNavigate();
   const onSubmit = () => {
     axios
       .post(`${window.API_URL}user/login`, { email: emailId, password })
@@ -29,9 +31,9 @@ export default function Login() {
           payload: { message: 'Login successful', type: 'success' },
         });
         if (data?.data.role == 2) {
-          window.location.href = '/userReservations';
+          navigate('/reserveBike');
         } else {
-          window.location.href = '/userList';
+          navigate('/userList');
         }
       })
       .catch((error) => {
@@ -104,7 +106,7 @@ export default function Login() {
               <Grid item xs />
               <Grid item>
                 <Link href="/signup" variant="body2">
-                  {"Don't have an account? Sign Up"}
+                  {`Don't have an account? Sign Up`}
                 </Link>
               </Grid>
             </Grid>

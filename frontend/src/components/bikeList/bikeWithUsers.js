@@ -81,16 +81,17 @@ export default function BikeWithUsersModal({ userList, handleClose }) {
         aria-describedby="modal-modal-description">
         <Fade in={userList}>
           <Box sx={style}>
-            <Typography id="modal-modal-title" align="center" variant="h6" component="h2">
+            <Typography id="modal-modal-title" align="center" variant="h4" component="h4">
               Reservation
             </Typography>
             <br />
             <Grid container style={{ padding: 20 }}>
-              {userList?.length && (
+              {userList?.length > 0 && (
                 <div style={{ height: 400, width: '100%' }}>
                   <DataGrid rows={userList} columns={columns} pageSize={5} />
                 </div>
               )}
+              {userList?.length === 0 && <h3>No reservations for this Bike</h3>}
             </Grid>
           </Box>
         </Fade>

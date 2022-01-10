@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import React, { useContext } from 'react';
 import axios from 'axios';
 import { AppContext } from './context';
 
@@ -17,13 +17,12 @@ export default function ApiService() {
           type: 'SHOW_ALERT',
           payload: { message: error.response?.data?.message, type: 'error' },
         });
-        return;
       });
   const getBikesAssociatedWithUser = (userId) =>
     axios
       .post(`${window.API_URL}reservations/bikes`, { userId })
       .then(({ data }) => {
-        if (data?.data?.length) {
+        if (data?.data) {
           return data?.data.map((item, index) => ({ ...item, id: index + 1 }));
         }
       })
@@ -32,13 +31,12 @@ export default function ApiService() {
           type: 'SHOW_ALERT',
           payload: { message: error.response?.data?.message, type: 'error' },
         });
-        return;
       });
   const getUserAssociatedWithBikes = (bikeId) =>
     axios
       .post(`${window.API_URL}reservations/users`, { bikeId })
       .then(({ data }) => {
-        if (data?.data?.length) {
+        if (data?.data) {
           return data?.data.map((item, index) => ({ ...item, id: index + 1 }));
         }
       })
