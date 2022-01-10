@@ -8,7 +8,12 @@ import Button from '@mui/material/Button';
 import DateAdapter from '@mui/lab/AdapterDateFns';
 import DesktopDateTimePicker from '@mui/lab/DesktopDateTimePicker';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import Select from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
+import MenuItem from '@mui/material/MenuItem';
+import Rating from '@mui/material/Rating';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
 import { format } from 'date-fns';
 import { AppContext } from '../../context';
 import ConfirmModal from './confirmModal';
@@ -22,6 +27,7 @@ export default function ReserveBike() {
   const [models, setModels] = useState();
   const [colors, setColors] = useState();
   const [locations, setLocations] = useState();
+  const [ratings, setRatings] = useState();
   const { getStaticData, searchBikes, reserveBike } = ApiService();
   const userDetails = JSON.parse(localStorage.getItem('userDetails'));
   const navigate = useNavigate();
@@ -52,6 +58,10 @@ export default function ReserveBike() {
       field: 'rating',
       headerName: 'Rating',
       width: 200,
+      renderCell: (params) =>
+        params.row.rating > 0 && (
+          <Rating size="small" name="rating" value={params.row.rating} readOnly />
+        ),
     },
     {
       field: 'isDeactive',
@@ -76,6 +86,7 @@ export default function ReserveBike() {
       color: colors,
       model: models,
       location: locations,
+      rating: ratings,
     })
       .then((response) => {
         setBikeList(response);
@@ -109,7 +120,33 @@ export default function ReserveBike() {
       )}
       <LocalizationProvider dateAdapter={DateAdapter}>
         <Grid container spacing={1} style={{ marginBottom: 30 }}>
-          <Grid item xs={12} sm={2}>
+          <Grid item sm={4}>
+            <DesktopDateTimePicker
+              value={startTime}
+              label="Start time"
+              onChange={(newValue) => {
+                setStartTime(newValue);
+              }}
+              minDateTime={new Date()}
+              renderInput={(params) => <TextField {...params} fullWidth />}
+              minutesStep={30}
+            />
+          </Grid>
+          <Grid item sm={4}>
+            <LocalizationProvider dateAdapter={DateAdapter}>
+              <DesktopDateTimePicker
+                value={endTime}
+                label="End time"
+                onChange={(newValue) => {
+                  setEndTime(newValue);
+                }}
+                minDateTime={startTime}
+                renderInput={(params) => <TextField {...params} fullWidth />}
+                minutesStep={30}
+              />
+            </LocalizationProvider>
+          </Grid>
+          <Grid item xs={12} sm={4}>
             <Autocomplete
               disablePortal
               value={models}
@@ -124,7 +161,7 @@ export default function ReserveBike() {
               renderInput={(params) => <TextField {...params} fullWidth label="Models" />}
             />
           </Grid>
-          <Grid item xs={12} sm={2}>
+          <Grid item xs={12} sm={3}>
             <Autocomplete
               disablePortal
               value={colors}
@@ -140,7 +177,7 @@ export default function ReserveBike() {
             />
           </Grid>
 
-          <Grid item xs={12} sm={2}>
+          <Grid item xs={12} sm={3}>
             <Autocomplete
               disablePortal
               value={locations}
@@ -155,36 +192,40 @@ export default function ReserveBike() {
               renderInput={(params) => <TextField {...params} fullWidth label="Locations" />}
             />
           </Grid>
-          <Grid item sm={2}>
-            <DesktopDateTimePicker
-              value={startTime}
-              label="Start time"
-              onChange={(newValue) => {
-                setStartTime(newValue);
-              }}
-              minDateTime={new Date()}
-              renderInput={(params) => <TextField {...params} />}
-              minutesStep={30}
-            />
+          <Grid item sm={3}>
+            <FormControl fullWidth>
+              <InputLabel id="demo-simple-select-helper-label">Rating</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={ratings}
+                fullWidth
+                label="Ratings"
+                onChange={(event) => setRatings(event.target.value)}>
+                <MenuItem value={1}>
+                  {' '}
+                  <Rating size="small" value={1} readOnly /> and up
+                </MenuItem>
+                <MenuItem value={2}>
+                  <Rating size="small" value={2} readOnly /> and up
+                </MenuItem>
+                <MenuItem value={3}>
+                  <Rating size="small" value={3} readOnly /> and up
+                </MenuItem>
+                <MenuItem value={4}>
+                  <Rating size="small" value={4} readOnly /> and up
+                </MenuItem>
+                <MenuItem value={5}>
+                  <Rating size="small" value={5} readOnly /> and up
+                </MenuItem>
+              </Select>
+            </FormControl>
           </Grid>
-          <Grid item sm={2}>
-            <LocalizationProvider dateAdapter={DateAdapter}>
-              <DesktopDateTimePicker
-                value={endTime}
-                label="End time"
-                onChange={(newValue) => {
-                  setEndTime(newValue);
-                }}
-                minDateTime={startTime}
-                renderInput={(params) => <TextField {...params} />}
-                minutesStep={30}
-              />
-            </LocalizationProvider>
-          </Grid>
-          <Grid item sm={2}>
+          <Grid item sm={3}>
             <Button
               color="primary"
               variant="contained"
+              size="large"
               onClick={() => {
                 onSearch();
               }}>

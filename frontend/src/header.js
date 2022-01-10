@@ -96,7 +96,7 @@ export default function Header({ userDetails }) {
               }}
               open={open}
               onClose={handleClose}>
-              <MenuItem onClick={() => redirectToProfile()}>My Profile</MenuItem>
+              {/* <MenuItem onClick={() => redirectToProfile()}>My Profile</MenuItem> */}
               <MenuItem onClick={logout}>Logout</MenuItem>
             </Menu>
           </Box>}

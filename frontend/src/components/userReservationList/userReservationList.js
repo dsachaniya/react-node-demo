@@ -75,7 +75,7 @@ export default function UserReservations() {
       width: 100,
       renderCell: (params) =>
         params.row.rating && (
-          <Rating size="small" name="half-rating" defaultValue={params.row.rating} precision={1} />
+          <Rating size="small" name="half-rating" defaultValue={params.row.rating} readOnly />
         ),
     },
     {
