@@ -6,14 +6,31 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var compression = require("compression");
 var mongoose = require('mongoose');
+const swaggerUi = require('swagger-ui-express');
+const YAML = require('yamljs');
+const swaggerDocument = YAML.load('./api-doc.yaml');
 require('dotenv').config();
 
 var routes = require('./routes/index');
 var app = express();
+const cors = require('cors');
 
+
+// Enable CORS
+app.use(cors());
+app.options('*', cors());
 //view engine setup
+
+
+app.use(
+  "/api-docs",
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerDocument)
+);
+
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
+app.set('port', process.env.PORT || 5000);
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -24,14 +41,13 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Enable CORS
 // Get user agent and add to the request
 app.use(function (req, res, next) {
   var agent = req.headers['user-agent']
   req.useragent = agent;
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Origin, Content-Type, Authorization, x-zumo-auth, Content-Length, X-Requested-With, Accept');
+  res.setHeader("Access-Control-Allow-Origin", "*")
+  res.setHeader('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Origin, Content-Type, Authorization, x-zumo-auth, Content-Length, X-Requested-With, Accept');
   //intercepts OPTIONS method
   if ('OPTIONS' === req.method) {
     //respond with 200

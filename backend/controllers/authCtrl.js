@@ -1,15 +1,16 @@
 /*
 FileName : authCtrl.js
-Description : This file consist of functions related to user's authentication
+Description : Thi file consist of functions related to user's authentication
 */
 
 /* DEPENDENCIES */
-const { SetResponse, RequestErrorMsg, ErrMessages, ApiResponse } = require('./../helpers/common');
+const { SetResponse, RequestErrorMsg, ErrMessages, ApiResponse, UserRoles } = require('./../helpers/common');
 const jwt = require('jsonwebtoken');
 const userModel = require('./../models/usersModel');
 const utils = require('./../helpers/utils');
-const ObjectId = require('mongoose').Types.ObjectId;
+const reservationsModal = require('../models/reservationsModal');
 
+const roles = new UserRoles();
 /* Authenticate user */
 module.exports.login = async (req, res) => {
   /* Contruct response object */
@@ -42,7 +43,8 @@ module.exports.login = async (req, res) => {
         const userObj = {
           _id: findUser._id,
           role: findUser.role,
-          name: findUser.name,
+          firstName: findUser.firstName,
+          lastName: findUser.lastName,
           email: findUser.email,
           phone: findUser.phone,
           token: token
@@ -72,15 +74,14 @@ module.exports.register = async (req, res) => {
   let httpStatus = 200;
 
   /* Check body params */
-  console.log(req.body)
-  if (!req.body.email || !req.body.password || !req.body.name || !req.body.phone || !req.body.type) {
+  if (!req.body.email || !req.body.password || !req.body.firstName || !req.body.lastName || !req.body.phone || !req.body.type) {
     SetResponse(rcResponse, 400, RequestErrorMsg('InvalidParams', req, null), false);
     httpStatus = 400;
     return res.status(httpStatus).send(rcResponse);
   }
 
   /* Check admin Key, if it's Admin user */
-  if (req.body.adminKey !== process.env['ADMIN_KEY']) {
+  if (req.body.adminKey !== process.env['ADMIN_KEY'] && req.body.type === roles.manager) {
       SetResponse(rcResponse, 401, RequestErrorMsg('InvalidAdminKey', req, null), false);
       httpStatus = 401;
       return res.status(httpStatus).send(rcResponse);
@@ -89,7 +90,8 @@ module.exports.register = async (req, res) => {
   try {
     const passHash = await utils.generatePasswordHash(req.body.password);
     const userObj = {
-      name: req.body.name,
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
       email: req.body.email,
       phone: req.body.phone,
       password: passHash,
@@ -105,7 +107,7 @@ module.exports.register = async (req, res) => {
     // generate accessToken using JWT
     const token = jwt.sign(encodedData, process.env['SECRET']);
 
-    rcResponse.data = { _id: createUser._id, role: createUser.role, name: createUser.name, email: createUser.email, phone: createUser.phone, token: token };
+    rcResponse.data = { _id: createUser._id, role: createUser.role, firstName: createUser.firstName, lastName: createUser.lastName, email: createUser.email, phone: createUser.phone, token: token };
   } catch (err) {
     if (err.code === 11000) {
       SetResponse(rcResponse, 400, RequestErrorMsg('EmailExists', req, null), false);
@@ -135,6 +137,28 @@ module.exports.getUserProfile = async (req, res) => {
   return res.status(httpStatus).send(rcResponse);
 };
 
+/* Get user's all list  */
+module.exports.listAllUsers = async (req, res) => {
+  /* Contruct response object */
+  let rcResponse = new ApiResponse();
+  let httpStatus = 200;
+
+  try {
+    const users = await userModel.aggregate([
+      {
+        $match: {
+          deleted: false
+        }
+      }
+        ]);
+    rcResponse.data = users;
+  } catch (err) {
+    SetResponse(rcResponse, 500, RequestErrorMsg(null, req, err), false);
+    httpStatus = 500;
+  }
+  return res.status(httpStatus).send(rcResponse);
+};
+
 /* Update user details */
 module.exports.userUpdate = async (req, res) => {
   /* Contruct response object */
@@ -143,7 +167,8 @@ module.exports.userUpdate = async (req, res) => {
 
   try {
     let userObj = {
-      name: req.body.name != undefined ? req.body.name : undefined,
+      firstName: req.body.firstName != undefined ? req.body.firstName : undefined,
+      lastName: req.body.lastName != undefined ? req.body.lastName : undefined,
       email: req.body.email != undefined ? req.body.email : undefined,
       phone: req.body.phone != undefined ? req.body.phone : undefined,
     };
@@ -156,6 +181,33 @@ module.exports.userUpdate = async (req, res) => {
     //   SetResponse(rcResponse, 400, RequestErrorMsg('EmailExists', req, null), false);
     //   httpStatus = 400;
     // }
+  } catch (err) {
+    console.log(err);
+    if (err.code == 11000) {
+      SetResponse(rcResponse, 400, RequestErrorMsg('EmailExists', req, null), false);
+      httpStatus = 400;
+    } else {
+      SetResponse(rcResponse, 500, RequestErrorMsg(null, req, err), false);
+      httpStatus = 500;
+    }
+  }
+  return res.status(httpStatus).send(rcResponse);
+};
+
+/* Delete user by id */
+module.exports.deleteUser = async (req, res) => {
+  /* Contruct response object */
+  let rcResponse = new ApiResponse();
+  let httpStatus = 200;
+
+  try {
+    await userModel.findByIdAndUpdate({ _id: req.params.userId }, { $set: {
+      deleted: true
+    } }, { new: true, runValidators: true }).lean().exec();
+    await reservationsModal.updateMany({ userId: req.params.userId }, { $set: {
+      deleted: true
+    } }, { new: true, runValidators: true }).lean().exec();
+      rcResponse.message = 'User has been deleted successfully';
   } catch (err) {
     console.log(err);
     if (err.code == 11000) {

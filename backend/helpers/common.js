@@ -12,7 +12,8 @@ const ErrMessages = {
   InvalidToken: 'Access token is invalid',
   InvalidAdminKey: 'Invalid Admin key',
   userNotFound: 'User not found',
-  BikeExists: "This Bike has been already registered."
+  BikeExists: "This Bike has been already registered.",
+  BikeNotAvailable: "This Bike has been already booked.",
 };
 
 /**

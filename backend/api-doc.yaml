@@ -1,0 +1,616 @@
+swagger: '2.0'
+info:
+  version: '1.0'
+  title: BikeRentPostman
+  contact: {}
+host: example.com
+basePath: /api
+securityDefinitions: {}
+schemes:
+- http
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+  /user/login:
+    post:
+      summary: User Login
+      tags:
+      - User Auth
+      operationId: UserLogin
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        required: false
+        default: Bearer {token}
+        type: string
+      - name: Body
+        in: body
+        required: true
+        description: ''
+        schema:
+          $ref: '#/definitions/UserLoginRequest'
+      responses:
+        '200':
+          description: ''
+          headers: {}
+  /user/list:
+    get:
+      summary: Get User Profile
+      tags:
+      - User Auth
+      operationId: GetUserProfile
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: authorization
+        in: header
+        required: true
+        type: string
+        description: ''
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      security: []
+  /user/register:
+    post:
+      summary: User Register
+      tags:
+      - User Auth
+      operationId: UserRegister
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        required: false
+        default: Bearer {token}
+        type: string
+      - name: Body
+        in: body
+        required: true
+        description: ''
+        schema:
+          $ref: '#/definitions/UserRegisterRequest'
+      responses:
+        '200':
+          description: ''
+          headers: {}
+  /bikes/available:
+    get:
+      summary: List of Available Bikes
+      tags:
+      - User Auth
+      operationId: ListofAvailableBikes
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        type: string
+        description: ''
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      security: []
+  /user/61d937dd1a4eb54441252aaf:
+    delete:
+      summary: Delete User
+      tags:
+      - User Auth
+      operationId: DeleteUser
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        type: string
+        description: ''
+      - name: Body
+        in: body
+        required: true
+        description: ''
+        schema:
+          $ref: '#/definitions/DeleteUserRequest'
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      security: []
+    put:
+      summary: Update User
+      tags:
+      - User Auth
+      operationId: UpdateUser
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        type: string
+        description: ''
+      - name: Body
+        in: body
+        required: true
+        description: ''
+        schema:
+          $ref: '#/definitions/UpdateUserRequest'
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      security: []
+  /bikes/61d5e32f622a1bfc6bffafeb:
+    put:
+      summary: Update Bike
+      tags:
+      - Bikes
+      operationId: UpdateBike
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: authorization
+        in: header
+        required: true
+        type: string
+        description: ''
+      - name: Body
+        in: body
+        required: true
+        description: ''
+        schema:
+          $ref: '#/definitions/UpdateBikeRequest'
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      security: []
+    delete:
+      summary: Delete Bike
+      tags:
+      - Bikes
+      operationId: DeleteBike
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: authorization
+        in: header
+        required: true
+        type: string
+        description: ''
+      - name: Body
+        in: body
+        required: true
+        description: ''
+        schema:
+          $ref: '#/definitions/DeleteBikeRequest'
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      security: []
+    get:
+      summary: Get Bike Details
+      tags:
+      - Bikes
+      operationId: GetBikeDetails
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: authorization
+        in: header
+        required: true
+        type: string
+        description: ''
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      security: []
+  /bikes:
+    post:
+      summary: Create Bike
+      tags:
+      - Bikes
+      operationId: CreateBike
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: authorization
+        in: header
+        required: true
+        type: string
+        description: ''
+      - name: Body
+        in: body
+        required: true
+        description: ''
+        schema:
+          $ref: '#/definitions/CreateBikeRequest'
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      security: []
+  /reservations:
+    post:
+      summary: Reserve Bike
+      tags:
+      - Bikes
+      operationId: ReserveBike
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: authorization
+        in: header
+        required: true
+        type: string
+        description: ''
+      - name: Body
+        in: body
+        required: true
+        description: ''
+        schema:
+          $ref: '#/definitions/ReserveBikeRequest'
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      security: []
+  /bikes/list:
+    get:
+      summary: Get All Bike List
+      tags:
+      - Bikes
+      operationId: GetAllBikeList
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: authorization
+        in: header
+        required: true
+        type: string
+        description: ''
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      security: []
+  /bikes/exlcuding-reserved:
+    post:
+      summary: List of Available Bikes
+      tags:
+      - Bikes
+      operationId: PostListofAvailableBikes
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: authorization
+        in: header
+        required: true
+        type: string
+        description: ''
+      - name: Body
+        in: body
+        required: true
+        description: ''
+        schema:
+          $ref: '#/definitions/ListofAvailableBikesRequest'
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      security: []
+  /reservations/61d98f642fd66762a8c13eb2:
+    put:
+      summary: Cancel/Rate Reservation
+      tags:
+      - Bikes
+      operationId: Cancel/RateReservation
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: authorization
+        in: header
+        required: true
+        type: string
+        description: ''
+      - name: Body
+        in: body
+        required: true
+        description: ''
+        schema:
+          $ref: '#/definitions/Cancel~1RateReservationRequest'
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      security: []
+  /reservations/bikes:
+    post:
+      summary: List of Bikes by userId
+      tags:
+      - Bikes
+      operationId: ListofBikesbyuserId
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: authorization
+        in: header
+        required: true
+        type: string
+        description: ''
+      - name: Body
+        in: body
+        required: true
+        description: ''
+        schema:
+          $ref: '#/definitions/ListofBikesbyuserIdRequest'
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      security: []
+  /reservations/users:
+    post:
+      summary: List of Users by bikeId
+      tags:
+      - Bikes
+      operationId: ListofUsersbybikeId
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: authorization
+        in: header
+        required: true
+        type: string
+        description: ''
+      - name: Body
+        in: body
+        required: true
+        description: ''
+        schema:
+          $ref: '#/definitions/ListofUsersbybikeIdRequest'
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      security: []
+definitions:
+  UserLoginRequest:
+    title: UserLoginRequest
+    example:
+      email: dms94260@gmail.com
+      password: test123
+    type: object
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    - password
+  UserRegisterRequest:
+    title: UserRegisterRequest
+    example:
+      email: dmsachaniya@gmail.com
+      password: test123
+      phone: '1234567890'
+      type: 1
+      adminKey: test-admin
+      firstName: Darshan
+      lastName: Sachaniya
+    type: object
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+      phone:
+        type: string
+      type:
+        type: integer
+        format: int32
+      adminKey:
+        type: string
+      firstName:
+        type: string
+      lastName:
+        type: string
+    required:
+    - email
+    - password
+    - phone
+    - type
+    - adminKey
+    - firstName
+    - lastName
+  DeleteUserRequest:
+    title: DeleteUserRequest
+    example:
+      phone: '9426026477'
+    type: object
+    properties:
+      phone:
+        type: string
+    required:
+    - phone
+  UpdateUserRequest:
+    title: UpdateUserRequest
+    example:
+      phone: '9426026477'
+      firstName: Darshan
+      lastName: Gajjar
+    type: object
+    properties:
+      phone:
+        type: string
+      firstName:
+        type: string
+      lastName:
+        type: string
+    required:
+    - phone
+    - firstName
+    - lastName
+  UpdateBikeRequest:
+    title: UpdateBikeRequest
+    example:
+      model: BMW BIKE 234
+      color: red
+      location: Ahmedabad
+    type: object
+    properties:
+      model:
+        type: string
+      color:
+        type: string
+      location:
+        type: string
+    required:
+    - model
+    - color
+    - location
+  DeleteBikeRequest:
+    title: DeleteBikeRequest
+    example:
+      model: BMW BIKE 234
+      color: red
+      location: Ahmedabad
+    type: object
+    properties:
+      model:
+        type: string
+      color:
+        type: string
+      location:
+        type: string
+    required:
+    - model
+    - color
+    - location
+  CreateBikeRequest:
+    title: CreateBikeRequest
+    example:
+      model: BMW BIKE
+      color: red
+      location: Ahmedabad
+    type: object
+    properties:
+      model:
+        type: string
+      color:
+        type: string
+      location:
+        type: string
+    required:
+    - model
+    - color
+    - location
+  ReserveBikeRequest:
+    title: ReserveBikeRequest
+    example:
+      userId: 61d937dd1a4eb54441252aaf
+      bikeId: 61d971172a34a10015aabef0
+      startTime: 2022-01-10T12:30:00
+      endTime: 2022-01-11T11:30:00
+    type: object
+    properties:
+      userId:
+        type: string
+      bikeId:
+        type: string
+      startTime:
+        type: string
+      endTime:
+        type: string
+    required:
+    - userId
+    - bikeId
+    - startTime
+    - endTime
+  ListofAvailableBikesRequest:
+    title: ListofAvailableBikesRequest
+    example:
+      userId: 61d5da7db9da8dfa9153cac0
+      bikeId: 61d5e32f622a1bfc6bffafeb
+      startTime: 2023-01-10T12:30:00
+      endTime: 2023-01-11T11:30:00
+      model: BMW B
+    type: object
+    properties:
+      userId:
+        type: string
+      bikeId:
+        type: string
+      startTime:
+        type: string
+      endTime:
+        type: string
+      model:
+        type: string
+    required:
+    - userId
+    - bikeId
+    - startTime
+    - endTime
+    - model
+  Cancel/RateReservationRequest:
+    title: Cancel/RateReservationRequest
+    example:
+      rating: 4
+    type: object
+    properties:
+      rating:
+        type: integer
+        format: int32
+    required:
+    - rating
+  ListofBikesbyuserIdRequest:
+    title: ListofBikesbyuserIdRequest
+    example:
+      userId: 61d94ae0c53ef000157f89ad
+    type: object
+    properties:
+      userId:
+        type: string
+    required:
+    - userId
+  ListofUsersbybikeIdRequest:
+    title: ListofUsersbybikeIdRequest
+    example:
+      bikeId: 61d971172a34a10015aabef0
+    type: object
+    properties:
+      bikeId:
+        type: string
+    required:
+    - bikeId
+tags:
+- name: User Auth
+- name: Bikes
