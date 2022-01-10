@@ -24,8 +24,7 @@ export default function UserReservations() {
           variant="contained"
           onClick={() => {
             onUpdateReservation({ isCancelled: true }, params.row._id);
-          }}
-        >
+          }}>
           Cancel Reservation
         </Button>
       )}
@@ -33,8 +32,7 @@ export default function UserReservations() {
         <Button
           color="primary"
           variant="contained"
-          onClick={() => setSelectedReservation(params.row)}
-        >
+          onClick={() => setSelectedReservation(params.row)}>
           Give Rating
         </Button>
       )}

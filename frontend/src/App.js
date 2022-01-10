@@ -55,13 +55,11 @@ function App() {
               horizontal: 'right',
             }}
             autoHideDuration={6000}
-            onClose={() => handleAlertClose()}
-          >
+            onClose={() => handleAlertClose()}>
             <Alert
               onClose={() => handleAlertClose()}
               severity={state.alert?.type}
-              sx={{ width: '100%' }}
-            >
+              sx={{ width: '100%' }}>
               {state.alert?.message}
             </Alert>
           </Snackbar>

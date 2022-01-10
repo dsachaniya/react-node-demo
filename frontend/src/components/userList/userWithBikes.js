@@ -72,8 +72,7 @@ export default function UserWithBikesModal({ bikeList, handleClose }) {
           timeout: 500,
         }}
         aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
+        aria-describedby="modal-modal-description">
         <Fade in={bikeList}>
           <Box sx={style}>
             <Typography id="modal-modal-title" align="center" variant="h4" component="h4">

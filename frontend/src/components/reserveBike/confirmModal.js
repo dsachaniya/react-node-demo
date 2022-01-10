@@ -36,8 +36,7 @@ export default function ConfirmModal({
           timeout: 500,
         }}
         aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
+        aria-describedby="modal-modal-description">
         <Fade in={selectedBike}>
           <Box sx={style}>
             <Typography id="modal-modal-title" align="center" variant="h6" component="h2">
@@ -76,8 +75,7 @@ export default function ConfirmModal({
               fullWidth
               variant="contained"
               color="primary"
-              sx={{ mt: 3, mb: 2 }}
-            >
+              sx={{ mt: 3, mb: 2 }}>
               Confirm
             </Button>
           </Box>

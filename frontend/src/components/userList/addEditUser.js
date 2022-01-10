@@ -62,7 +62,9 @@ export default function AddEditUserModal({ open, handleClose, userData, onAddEdi
       }
       onAddEdit();
       handleClose();
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <div>
@@ -75,8 +77,7 @@ export default function AddEditUserModal({ open, handleClose, userData, onAddEdi
           timeout: 500,
         }}
         aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
+        aria-describedby="modal-modal-description">
         <Fade in={open}>
           <Box sx={style}>
             <Typography id="modal-modal-title" align="center" variant="h6" component="h2">
@@ -90,8 +91,7 @@ export default function AddEditUserModal({ open, handleClose, userData, onAddEdi
                   aria-label="quiz"
                   name="role"
                   value={parseInt(role, 10)}
-                  onChange={handleChange}
-                >
+                  onChange={handleChange}>
                   <FormControlLabel
                     disabled={userData}
                     value={1}
@@ -200,8 +200,7 @@ export default function AddEditUserModal({ open, handleClose, userData, onAddEdi
                   phone
                 )
               }
-              sx={{ mt: 3, mb: 2 }}
-            >
+              sx={{ mt: 3, mb: 2 }}>
               Save
             </Button>
           </Box>

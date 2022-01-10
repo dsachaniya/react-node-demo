@@ -17,8 +17,7 @@ export default function NotFoundPage() {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-          }}
-        >
+          }}>
           <h3>404</h3>
           <div id="info">
             <h3>This page could not be found</h3>

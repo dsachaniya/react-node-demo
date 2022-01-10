@@ -29,8 +29,7 @@ export default function BikeList() {
         variant="contained"
         onClick={() => {
           onDeleteBike(params.row._id);
-        }}
-      >
+        }}>
         Delete
       </Button>
     </>
@@ -105,8 +104,7 @@ export default function BikeList() {
         color="primary"
         variant="contained"
         onClick={() => toggleAddEditModal()}
-        style={{ margin: '10px 0px' }}
-      >
+        style={{ margin: '10px 0px' }}>
         Add a new bike
       </Button>
       {bikeList?.length && (

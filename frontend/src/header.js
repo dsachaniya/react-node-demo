@@ -43,15 +43,13 @@ export default function Header({ userDetails }) {
                 <Button
                   key="user"
                   onClick={() => navigate('userList')}
-                  sx={{ my: 2, color: 'white', display: 'block' }}
-                >
+                  sx={{ my: 2, color: 'white', display: 'block' }}>
                   Users
                 </Button>
                 <Button
                   key="bikes"
                   onClick={() => navigate('bikeList')}
-                  sx={{ my: 2, color: 'white', display: 'block' }}
-                >
+                  sx={{ my: 2, color: 'white', display: 'block' }}>
                   Bikes
                 </Button>
               </>
@@ -61,15 +59,13 @@ export default function Header({ userDetails }) {
                 <Button
                   key="book"
                   onClick={() => navigate('reserveBike')}
-                  sx={{ my: 2, color: 'white', display: 'block' }}
-                >
+                  sx={{ my: 2, color: 'white', display: 'block' }}>
                   Book a Bike
                 </Button>
                 <Button
                   key="myBooking"
                   onClick={() => navigate('userReservations')}
-                  sx={{ my: 2, color: 'white', display: 'block' }}
-                >
+                  sx={{ my: 2, color: 'white', display: 'block' }}>
                   My Bookings
                 </Button>
               </>
@@ -84,8 +80,7 @@ export default function Header({ userDetails }) {
                 aria-haspopup="true"
                 onClick={handleMenu}
                 color="inherit"
-                sx={{ p: 0 }}
-              >
+                sx={{ p: 0 }}>
                 <AccountCircle />
               </IconButton>
               <Menu
@@ -101,8 +96,7 @@ export default function Header({ userDetails }) {
                   horizontal: 'right',
                 }}
                 open={open}
-                onClose={handleClose}
-              >
+                onClose={handleClose}>
                 {/* <MenuItem onClick={() => redirectToProfile()}>My Profile</MenuItem> */}
                 <MenuItem onClick={logout}>Logout</MenuItem>
               </Menu>
