@@ -14,6 +14,7 @@ import BikeList from './components/bikeList/bikeList';
 import UserReservations from './components/userReservationList/userReservationList';
 import ReserveBike from './components/reserveBike/reserveBike';
 import Header from './header';
+import NotFoundPage from './components/NotFoundPage/NotFoundPage';
 
 axios.interceptors.request.use((config) => {
   const userDetails = JSON.parse(localStorage.getItem('userDetails'));
@@ -63,10 +64,11 @@ function App() {
             </Alert>
           </Snackbar>
         )}
-        {userDetails && <Header userDetails={userDetails} />}
+        {<Header userDetails={userDetails} />}
         <Routes>
           <Route path="/signup" element={<SignUp />} />
           <Route path="login" element={<Login />} />
+          <Route path="/" element={<Login />} />
           {userDetails && (
             <>
               {userDetails.role === 1 && (
@@ -83,7 +85,8 @@ function App() {
               )}
             </>
           )}
-          <Route path="*" element={<Login />} />
+          <Route path="*" element={<NotFoundPage />} />
+          <Route path="" element={<NotFoundPage />} />
         </Routes>
       </div>
     </AppContext.Provider>

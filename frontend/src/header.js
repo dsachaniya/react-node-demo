@@ -38,7 +38,7 @@ export default function Header({ userDetails }) {
             Bike Rent
           </Typography>
           <Box sx={{ flexGrow: 1, display: { md: 'flex' } }}>
-            {userDetails.role === 1 && (
+            {userDetails?.role === 1 && (
               <>
                 <Button
                   key="user"
@@ -54,7 +54,7 @@ export default function Header({ userDetails }) {
                 </Button>
               </>
             )}
-            {userDetails.role === 2 && (
+            {userDetails?.role === 2 && (
               <>
                 <Button
                   key="book"
@@ -71,7 +71,7 @@ export default function Header({ userDetails }) {
               </>
             )}
           </Box>
-          <Box sx={{ flexGrow: 0 }}>
+          {userDetails && <Box sx={{ flexGrow: 0 }}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -99,7 +99,7 @@ export default function Header({ userDetails }) {
               <MenuItem onClick={() => redirectToProfile()}>My Profile</MenuItem>
               <MenuItem onClick={logout}>Logout</MenuItem>
             </Menu>
-          </Box>
+          </Box>}
         </Toolbar>
       </AppBar>
     </div>
