@@ -18,7 +18,7 @@ const cors = require('cors');
 
 // Enable CORS
 app.use(cors());
-app.options('*', cors());
+app.options('http://localhost:3000', cors());
 //view engine setup
 
 
