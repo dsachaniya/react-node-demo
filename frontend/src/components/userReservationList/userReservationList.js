@@ -18,7 +18,7 @@ export default function UserReservations() {
 
   const renderActions = (params) => (
     <>
-      {!params.row.isCancelled && isBefore(new Date(), params.row.startTime) && (
+      {!params.row.isCancelled && isBefore(new Date(), new Date(params.row.startTime)) && (
         <Button
           color="primary"
           variant="contained"
@@ -28,7 +28,7 @@ export default function UserReservations() {
           Cancel Reservation
         </Button>
       )}
-      {!params.row.rating && isAfter(new Date(), params.row.endTime) && (
+      {!params.row.rating && isAfter(new Date(), new Date(params.row.endTime)) && (
         <Button
           color="primary"
           variant="contained"
@@ -74,8 +74,10 @@ export default function UserReservations() {
       headerName: 'Rating',
       width: 100,
       renderCell: (params) =>
-        params.row.rating && (
+        params.row.rating ? (
           <Rating size="small" name="half-rating" defaultValue={params.row.rating} readOnly />
+        ) : (
+          'Not Given'
         ),
     },
     {
