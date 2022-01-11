@@ -25,7 +25,6 @@ const LoginPage = () => {
   const navigate = useNavigate();
 
   const onSubmit = (formValues) => {
-    console.log('test', formValues);
     axios
       .post(`${window.API_URL}user/login`, {
         email: formValues.email,
@@ -58,7 +57,6 @@ const LoginPage = () => {
     onSubmit,
     validateLoginForm,
   );
-  console.log('isSubmitDisabled', isSubmitDisabled);
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">

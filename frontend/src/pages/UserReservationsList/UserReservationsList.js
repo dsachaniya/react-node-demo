@@ -106,7 +106,6 @@ const UserReservationsList = () => {
       })
       .catch(() => {});
   };
-  console.log(reservationList);
   return (
     <Grid container style={{ padding: 20 }}>
       {selectedReservation && (
