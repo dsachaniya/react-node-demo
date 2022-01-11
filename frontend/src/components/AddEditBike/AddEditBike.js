@@ -27,7 +27,8 @@ const initialData = {
   modal: '',
   location: '',
 };
-export default function AddEditBikeModal({ open, handleClose, bikeData, onAddEdit }) {
+
+function AddEditBikeModal({ open, handleClose, bikeData, onAddEdit }) {
   const [{ color, model, location }, setState] = React.useState(bikeData || initialData);
   const { state } = useContext(AppContext);
   const { getStaticData, addBike, updateBike } = ApiService();
@@ -134,3 +135,5 @@ export default function AddEditBikeModal({ open, handleClose, bikeData, onAddEdi
     </div>
   );
 }
+
+export default AddEditBikeModal;

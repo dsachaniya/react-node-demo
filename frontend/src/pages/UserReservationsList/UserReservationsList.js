@@ -7,10 +7,10 @@ import isAfter from 'date-fns/isAfter';
 import Rating from '@mui/material/Rating';
 import isBefore from 'date-fns/isBefore';
 import { AppContext } from '../../context';
-import FeedbackModal from './feedBackModal';
+import FeedbackModal from '../../components/FeedBackModal/FeedBackModal';
 import ApiService from '../../apiService';
 
-export default function UserReservations() {
+const UserReservationsList = () => {
   const [reservationList, setReservationList] = useState();
   const [selectedReservation, setSelectedReservation] = useState(false);
   const { getBikesAssociatedWithUser, updateReservation } = ApiService();
@@ -130,4 +130,6 @@ export default function UserReservations() {
       {reservationList?.length === 0 && <h3>You dont have any booking</h3>}
     </Grid>
   );
-}
+};
+
+export default UserReservationsList;

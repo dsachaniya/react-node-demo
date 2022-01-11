@@ -13,24 +13,31 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
 import { AppContext } from '../../context';
+import { UserRoles } from '../../utils/constant';
+import useForm from '../../hooks/useForm';
+import { validateLoginForm } from '../../utils/common';
 
 const theme = createTheme();
 
-export default function Login() {
-  const [emailId, setEmailId] = useState('');
-  const [password, setPassword] = useState('');
+const LoginPage = () => {
   const { dispatch } = useContext(AppContext);
+
   const navigate = useNavigate();
-  const onSubmit = () => {
+
+  const onSubmit = (formValues) => {
+    console.log('test', formValues);
     axios
-      .post(`${window.API_URL}user/login`, { email: emailId, password })
+      .post(`${window.API_URL}user/login`, {
+        email: formValues.email,
+        password: formValues.password,
+      })
       .then(({ data }) => {
         localStorage.setItem('userDetails', JSON.stringify(data?.data));
         dispatch({
           type: 'SHOW_ALERT',
           payload: { message: 'Login successful', type: 'success' },
         });
-        if (data?.data.role == 2) {
+        if (data?.data.role == UserRoles.USER) {
           navigate('/reserveBike');
         } else {
           navigate('/userList');
@@ -46,6 +53,12 @@ export default function Login() {
         });
       });
   };
+
+  const { values, errors, handleChange, handleSubmit, isSubmitDisabled } = useForm(
+    onSubmit,
+    validateLoginForm,
+  );
+  console.log('isSubmitDisabled', isSubmitDisabled);
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
@@ -72,11 +85,11 @@ export default function Login() {
               label="Email Address"
               name="email"
               autoComplete="email"
-              onChange={(event) => {
-                setEmailId(event.target.value);
-              }}
-              value={emailId}
+              onChange={handleChange}
+              value={values.email}
               autoFocus
+              error={!!errors.email}
+              helperText={errors.email}
             />
             <TextField
               margin="normal"
@@ -86,20 +99,20 @@ export default function Login() {
               label="Password"
               type="password"
               id="password"
-              onChange={(event) => {
-                setPassword(event.target.value);
-              }}
-              value={password}
+              onChange={handleChange}
+              value={values.password}
               autoComplete="current-password"
+              error={!!errors.password}
+              helperText={errors.password}
             />
             <Button
               type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
-              onClick={() => onSubmit()}
+              onClick={handleSubmit}
               color="primary"
-              disabled={!(emailId && password)}>
+              disabled={isSubmitDisabled}>
               Sign In
             </Button>
             <Grid container>
@@ -115,4 +128,6 @@ export default function Login() {
       </Container>
     </ThemeProvider>
   );
-}
+};
+
+export default LoginPage;

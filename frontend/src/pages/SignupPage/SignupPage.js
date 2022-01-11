@@ -12,34 +12,23 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
 import { AppContext } from '../../context';
+import { MOBILE_REGEX, UserRoles } from '../../utils/constant';
+import useForm from '../../hooks/useForm';
+import { validateSignupForm } from '../../utils/common';
 
 const theme = createTheme();
 
-export default function SignUp() {
-  const [{ firstName, lastName, emailAddress, password, phone }, setState] = React.useState({
-    firstName: '',
-    lastName: '',
-    phone: '',
-    emailAddress: '',
-    password: '',
-  });
+const SignUpPage = () => {
   const { dispatch } = useContext(AppContext);
 
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    const mobileNoRegex = /^[0-9\b]+$/;
-    if (name === 'phone' && !mobileNoRegex.test(value)) return;
-    setState((prevState) => ({ ...prevState, [name]: value }));
-  };
-
-  const onSubmit = () => {
+  const onSubmit = (formValues) => {
     const body = {
-      firstName,
-      lastName,
-      email: emailAddress,
-      password,
-      phone,
-      type: 2,
+      firstName: formValues.firstName,
+      lastName: formValues.lastName,
+      email: formValues.email,
+      password: formValues.password,
+      phone: formValues.phone,
+      type: UserRoles.USER,
     };
     axios
       .post(`${window.API_URL}user/register`, body)
@@ -57,11 +46,12 @@ export default function SignUp() {
         });
       });
   };
-  const validateEmail = () => {
-    const re =
-      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(String(emailAddress).toLowerCase());
-  };
+
+  const { values, errors, handleChange, handleSubmit, isSubmitDisabled } = useForm(
+    onSubmit,
+    validateSignupForm,
+  );
+
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
@@ -91,8 +81,10 @@ export default function SignUp() {
                   id="firstName"
                   label="First Name"
                   autoFocus
-                  value={firstName}
+                  value={values.firstName}
                   onChange={handleChange}
+                  error={!!errors.firstName}
+                  helperText={errors.firstName}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -104,8 +96,10 @@ export default function SignUp() {
                   label="Last Name"
                   name="lastName"
                   autoComplete="lname"
-                  value={lastName}
+                  value={values.lastName}
                   onChange={handleChange}
+                  error={!!errors.lastName}
+                  helperText={errors.lastName}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -116,13 +110,14 @@ export default function SignUp() {
                   fullWidth
                   id="phone"
                   label="Mobile Number"
-                  autoFocus
                   inputProps={{
                     maxLength: 10,
                     pattern: 'd*',
                   }}
-                  value={phone}
+                  value={values.phone}
                   onChange={handleChange}
+                  error={!!errors.phone}
+                  helperText={errors.phone}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -133,13 +128,15 @@ export default function SignUp() {
                   id="email"
                   type="email"
                   label="Email Address"
-                  name="emailAddress"
+                  name="email"
                   autoComplete="email"
                   inputProps={{
                     pattern: '[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,}$',
                   }}
-                  value={emailAddress}
+                  value={values.email}
                   onChange={handleChange}
+                  error={!!errors.email}
+                  helperText={errors.email}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -152,19 +149,19 @@ export default function SignUp() {
                   type="password"
                   id="password"
                   autoComplete="current-password"
-                  value={password}
+                  value={values.password}
                   onChange={handleChange}
+                  error={!!errors.password}
+                  helperText={errors.password}
                 />
               </Grid>
             </Grid>
             <Button
-              onClick={() => onSubmit()}
+              onClick={handleSubmit}
               fullWidth
               variant="contained"
               color="primary"
-              disabled={
-                !(firstName && lastName && emailAddress && validateEmail() && password && phone)
-              }
+              disabled={isSubmitDisabled}
               sx={{ mt: 3, mb: 2 }}>
               Sign Up
             </Button>
@@ -180,4 +177,6 @@ export default function SignUp() {
       </Container>
     </ThemeProvider>
   );
-}
+};
+
+export default SignUpPage;

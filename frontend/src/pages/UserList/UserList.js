@@ -3,11 +3,11 @@ import { DataGrid } from '@mui/x-data-grid';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import { AppContext } from '../../context';
-import AddEditUserModal from './addEditUser';
-import UserWithBikesModal from './userWithBikes';
+import AddEditUserModal from '../../components/AddEditUser/AddEditUser';
+import UserWithBikesModal from '../../components/UserWithBikes/UserWithBikes';
 import ApiService from '../../apiService';
 
-export default function UserList() {
+const UserList = () => {
   const [userList, setUserList] = useState();
   const [{ isAddEditModalOpen, selectedUser }, setAddEditModalParams] = useState({
     isAddEditModalOpen: false,
@@ -124,4 +124,6 @@ export default function UserList() {
       )}
     </Grid>
   );
-}
+};
+
+export default UserList;

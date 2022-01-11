@@ -12,6 +12,8 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 
 import Grid from '@mui/material/Grid';
 import ApiService from '../../apiService';
+import { ADMIN_KEY, MOBILE_REGEX, UserRoles } from '../../utils/constant';
+import { validateEmail } from '../../utils/common';
 
 const style = {
   position: 'absolute',
@@ -25,14 +27,15 @@ const style = {
   p: 4,
 };
 const initialState = {
-  role: 2,
+  role: UserRoles.USER,
   firstName: '',
   lastName: '',
   phone: '',
   email: '',
   password: '',
 };
-export default function AddEditUserModal({ open, handleClose, userData, onAddEdit }) {
+
+const AddEditUserModal = ({ open, handleClose, userData, onAddEdit }) => {
   const [{ firstName, lastName, phone, email, password, role }, setState] = React.useState(
     userData || initialState,
   );
@@ -40,19 +43,14 @@ export default function AddEditUserModal({ open, handleClose, userData, onAddEdi
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    const mobileNoRegex = /^[0-9\b]+$/;
-    if (name === 'phone' && !mobileNoRegex.test(value)) return;
+    if (name === 'phone' && !MOBILE_REGEX.test(value)) return;
     setState((prevState) => ({ ...prevState, [name]: value }));
   };
-  const validateEmail = () => {
-    const re =
-      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(String(email).toLowerCase());
-  };
+
   const onSubmit = async () => {
     const params = { firstName, lastName, phone, email };
     if (!userData) params.password = password;
-    if (role == 1) params.adminKey = 'test-admin';
+    if (role == UserRoles.MANAGER) params.adminKey = ADMIN_KEY;
     try {
       if (userData?._id) await updateUser(params, userData._id);
       else {
@@ -66,6 +64,15 @@ export default function AddEditUserModal({ open, handleClose, userData, onAddEdi
       console.log(error);
     }
   };
+
+  const loginButtonDisabled = !(
+    firstName &&
+    lastName &&
+    email &&
+    validateEmail(email) &&
+    (userData || password) &&
+    phone
+  );
   return (
     <div>
       <Modal
@@ -190,16 +197,7 @@ export default function AddEditUserModal({ open, handleClose, userData, onAddEdi
               fullWidth
               variant="contained"
               color="primary"
-              disabled={
-                !(
-                  firstName &&
-                  lastName &&
-                  email &&
-                  validateEmail() &&
-                  (userData || password) &&
-                  phone
-                )
-              }
+              disabled={loginButtonDisabled}
               sx={{ mt: 3, mb: 2 }}>
               Save
             </Button>
@@ -208,4 +206,6 @@ export default function AddEditUserModal({ open, handleClose, userData, onAddEdi
       </Modal>
     </div>
   );
-}
+};
+
+export default AddEditUserModal;

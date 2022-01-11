@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import TextField from '@mui/material/TextField';
 import Modal from '@mui/material/Modal';
 import Backdrop from '@mui/material/Backdrop';
 import Fade from '@mui/material/Fade';
+import RadioGroup from '@mui/material/RadioGroup';
+import Radio from '@mui/material/Radio';
+import FormControlLabel from '@mui/material/FormControlLabel';
 
 import { DataGrid } from '@mui/x-data-grid';
 import Grid from '@mui/material/Grid';
@@ -22,25 +27,26 @@ const style = {
   p: 4,
 };
 
-export default function UserWithBikesModal({ bikeList, handleClose }) {
+const BikeWithUsersModal = ({ userList, handleClose }) => {
+  const { dispatch } = useContext(AppContext);
   const columns = [
     {
-      field: 'model',
-      headerName: 'Model',
-      width: 180,
-      renderCell: (params) => params?.row?.bikeObj?.model,
+      field: 'firstName',
+      headerName: 'First Name',
+      width: 200,
+      renderCell: (params) => params?.row?.userObj?.firstName,
     },
     {
-      field: 'color',
-      headerName: 'Color',
-      width: 180,
-      renderCell: (params) => params?.row?.bikeObj?.color,
+      field: 'lastName',
+      headerName: 'Last Name',
+      width: 200,
+      renderCell: (params) => params?.row?.userObj?.lastName,
     },
     {
-      field: 'location',
+      field: 'email',
       headerName: 'Location',
-      width: 180,
-      renderCell: (params) => params?.row?.bikeObj?.location,
+      width: 150,
+      renderCell: (params) => params?.row?.userObj?.email,
     },
     {
       field: 'startTime',
@@ -64,7 +70,7 @@ export default function UserWithBikesModal({ bikeList, handleClose }) {
   return (
     <div>
       <Modal
-        open={bikeList}
+        open={userList}
         onClose={handleClose}
         closeAfterTransition
         BackdropComponent={Backdrop}
@@ -73,23 +79,25 @@ export default function UserWithBikesModal({ bikeList, handleClose }) {
         }}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description">
-        <Fade in={bikeList}>
+        <Fade in={userList}>
           <Box sx={style}>
             <Typography id="modal-modal-title" align="center" variant="h4" component="h4">
               Reservation
             </Typography>
             <br />
             <Grid container style={{ padding: 20 }}>
-              {bikeList?.length > 0 && (
+              {userList?.length > 0 && (
                 <div style={{ height: 400, width: '100%' }}>
-                  <DataGrid rows={bikeList} columns={columns} pageSize={10} disableColumnMenu />
+                  <DataGrid rows={userList} columns={columns} pageSize={10} disableColumnMenu />
                 </div>
               )}
-              {bikeList?.length === 0 && <h3>No reservations for this user</h3>}
+              {userList?.length === 0 && <h3>No reservations for this Bike</h3>}
             </Grid>
           </Box>
         </Fade>
       </Modal>
     </div>
   );
-}
+};
+
+export default BikeWithUsersModal;

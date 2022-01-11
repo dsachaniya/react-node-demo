@@ -1,20 +1,22 @@
 import React, { useReducer } from 'react';
-import './App.css';
 import { Routes, Route } from 'react-router-dom';
 import Backdrop from '@mui/material/Backdrop';
 import axios from 'axios';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import CircularProgress from '@mui/material/CircularProgress';
-import Login from './components/login/login';
-import SignUp from './components/signup/signup';
+
 import { AppContext, initialState, reducer } from './context';
-import UserList from './components/userList/userList';
-import BikeList from './components/bikeList/bikeList';
-import UserReservations from './components/userReservationList/userReservationList';
-import ReserveBike from './components/reserveBike/reserveBike';
+import UserList from './pages/UserList/UserList';
+import BikeList from './pages/BikeList/BikeList';
+import LoginPage from './pages/LoginPage/LoginPage';
+import UserReservationsList from './pages/UserReservationsList/UserReservationsList';
+import ReserveBike from './pages/ReserveBike/ReserveBike';
+import SignUpPage from './pages/SignupPage/SignupPage';
 import Header from './header';
-import NotFoundPage from './components/NotFoundPage/NotFoundPage';
+import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
+import './App.css';
+import { UserRoles } from './utils/constant';
 
 axios.interceptors.request.use((config) => {
   const userDetails = JSON.parse(localStorage.getItem('userDetails'));
@@ -66,20 +68,20 @@ function App() {
         )}
         {<Header userDetails={userDetails} />}
         <Routes>
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="login" element={<Login />} />
-          <Route path="/" element={<Login />} />
+          <Route path="/signup" element={<SignUpPage />} />
+          <Route path="login" element={<LoginPage />} />
+          <Route path="/" element={<LoginPage />} />
           {userDetails && (
             <>
-              {userDetails.role === 1 && (
+              {userDetails.role === UserRoles.MANAGER && (
                 <>
                   <Route path="userList" element={<UserList />} />
                   <Route path="bikeList" element={<BikeList />} />
                 </>
               )}
-              {userDetails.role === 2 && (
+              {userDetails.role === UserRoles.USER && (
                 <>
-                  <Route path="userReservations" element={<UserReservations />} />
+                  <Route path="userReservations" element={<UserReservationsList />} />
                   <Route path="reserveBike" element={<ReserveBike />} />
                 </>
               )}

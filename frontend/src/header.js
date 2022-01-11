@@ -9,6 +9,7 @@ import Box from '@mui/material/Box';
 import Menu from '@mui/material/Menu';
 import AppBar from '@mui/material/AppBar';
 import Button from '@mui/material/Button';
+import { UserRoles } from './utils/constant';
 
 export default function Header({ userDetails }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -38,7 +39,7 @@ export default function Header({ userDetails }) {
             Bike Rent
           </Typography>
           <Box sx={{ flexGrow: 1, display: { md: 'flex' } }}>
-            {userDetails?.role === 1 && (
+            {userDetails?.role === UserRoles.MANAGER && (
               <>
                 <Button
                   key="user"
@@ -54,7 +55,7 @@ export default function Header({ userDetails }) {
                 </Button>
               </>
             )}
-            {userDetails?.role === 2 && (
+            {userDetails?.role === UserRoles.USER && (
               <>
                 <Button
                   key="book"

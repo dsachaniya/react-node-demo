@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { DataGrid } from '@mui/x-data-grid';
 import add from 'date-fns/add';
+import { format } from 'date-fns';
 import Autocomplete from '@mui/material/Autocomplete';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
@@ -14,12 +15,12 @@ import MenuItem from '@mui/material/MenuItem';
 import Rating from '@mui/material/Rating';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
-import { format } from 'date-fns';
+
 import { AppContext } from '../../context';
-import ConfirmModal from './confirmModal';
+import ConfirmModal from '../../components/ConfirmModal/ConfirmModal';
 import ApiService from '../../apiService';
 
-export default function ReserveBike() {
+const ReserveBike = () => {
   const [bikeList, setBikeList] = useState();
   const [selectedBike, setSelectedBike] = useState();
   const [startTime, setStartTime] = useState(add(new Date(), { days: 1 }));
@@ -246,4 +247,6 @@ export default function ReserveBike() {
       {bikeList?.length === 0 && <h3>No bikes available</h3>}
     </Grid>
   );
-}
+};
+
+export default ReserveBike;

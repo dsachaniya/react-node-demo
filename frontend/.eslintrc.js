@@ -20,5 +20,6 @@ module.exports = {
     'consistent-return': 'off',
     'react/jsx-curly-brace-presence': 'off',
     'prettier/prettier': ['error', prettierOptions],
+    'react/function-component-definition': 'off',
   },
 };
